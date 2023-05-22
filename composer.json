@@ -1,8 +1,18 @@
 {
-  "autoload": {
-    "psr-4": {
-      "Nichin79\\Curl\\": "src/"
-    }
-  },
-  "require": {}
+    "name": "nichin79/curl",
+    "description": "Basic curl class for PHP",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Nicklas H",
+            "email": "nicklas@imagineit.nu"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+      "psr-4": {
+        "Nichin79\\Curl\\": "src/"
+      }
+    },
+    "require": {}
 }
