@@ -13,19 +13,19 @@ OR
 
 ```
 $data = [
-'url' => 'https://reqbin.com/echo',
-// Method will automatically be set to GET if not specified
-'method' => 'GET',
-'headers' => [],
-'options' => [
-'SSL_VERIFYPEER' => false
-]
+  'url' => 'https://reqbin.com/echo',
+  'method' => 'GET', // Method will automatically be set to GET if not specified
+  'headers' => [],
+  'options' => [
+  'SSL_VERIFYPEER' => false
+  ]
 ];
 
 $curl = new Curl($data);
-$curl->execute();
 
-echo json_encode($curl->getResponse(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+// execute the initiated curl and return the response
+$curl->exec();
+
 echo "\r\n";
 echo "http status code: " . $curl->getHttpCode();
 ```
