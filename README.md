@@ -1,8 +1,9 @@
 # curl
 
 Contains two classes:
--Curl
--BasicCurl
+
+- Curl
+- BasicCurl
 
 BasicCurl extends Curl and will automatically use the curlopt's ssl_verifypeer and returntransfer. In addition it will automatically execute the curl
 
