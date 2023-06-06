@@ -5,7 +5,7 @@ class Curl
 {
   public $curl;
   public $response;
-  public array $constants;
+  private array $constants;
 
   public function __construct(array $data = [])
   {
