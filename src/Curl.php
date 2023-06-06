@@ -79,19 +79,19 @@ class Curl
   }
 
 
-  public function getInfo()
+  public function info()
   {
     return curl_getinfo($this->curl);
   }
 
 
-  public function getHttpCode()
+  public function httpcode()
   {
     return curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
   }
 
 
-  public function getResponse()
+  public function response()
   {
     try {
       $response = json_decode($this->response, $associative = true, $depth = 512, JSON_THROW_ON_ERROR);
