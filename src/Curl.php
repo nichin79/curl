@@ -29,8 +29,17 @@ class Curl
       curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data['data']);
     }
 
-    foreach ($data['options'] as $key => $value) {
-      curl_setopt($this->curl, $this->getCurlopt('curlopt_' . $key), $value);
+    if (isset($data['options'])) {
+      foreach ($data['options'] as $key => $value) {
+        curl_setopt($this->curl, $this->getCurlopt('curlopt_' . $key), $value);
+      }
+    }
+
+    $keys = ['method', 'url', 'headers', 'data', 'options'];
+    if (!$this->checkDataKeys($keys, $data) && !empty($data)) {
+      foreach ($data as $key => $value) {
+        curl_setopt($this->curl, $this->getCurlopt($key), $value);
+      }
     }
   }
 
@@ -52,6 +61,16 @@ class Curl
     throw new \Exception("CURLOPT: " . strtoupper($option) . " NOT FOUND");
   }
 
+
+  private function checkDataKeys($keys, $data)
+  {
+    foreach ($keys as $key) {
+      if (isset($data[$key])) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public function exec()
   {

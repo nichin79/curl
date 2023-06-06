@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 use Nichin79\Curl\Curl;
 
+
+// Method 1
 $data = [
   'url' => 'https://reqbin.com/echo',
   // Method will automatically be set to GET if not specified
@@ -11,6 +13,12 @@ $data = [
     'SSL_VERIFYPEER' => false
   ]
 ];
+
+// Method 2
+// $data = [
+//   'curlopt_url' => 'https://reqbin.com/echo',
+//   'curlopt_ssl_verifypeer' => false,
+// ];
 
 $curl = new Curl($data);
 
