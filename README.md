@@ -5,7 +5,13 @@ Contains two classes:
 - Curl
 - BasicCurl
 
-BasicCurl extends Curl and will automatically use the curlopt's ssl_verifypeer and returntransfer. In addition it will automatically execute the curl
+BasicCurl extends Curl and will automatically use the curlopt's
+
+- ssl_verifypeer
+- returntransfer.
+  In addition it will also execute the curl automatically.
+
+If curlopt_returntransfer is set, the response can be retrieved with getResponse().
 
 `use Nichin79\Curl\BasicCurl;`
 OR
