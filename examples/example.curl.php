@@ -26,4 +26,4 @@ $curl = new Curl($data);
 $curl->exec();
 
 echo "\r\n";
-echo "http status code: " . $curl->getHttpCode();
+echo "http status code: " . $curl->httpcode();

@@ -50,7 +50,7 @@ $curl = new Curl($data);
 $curl->exec();
 
 echo "\r\n";
-echo "http status code: " . $curl->getHttpCode();
+echo "http status code: " . $curl->httpcode();
 ```
 
 Setting url, method, headers and data are optional and can be set inside the options array as well.
