@@ -1,17 +1,30 @@
 # curl
 
-**Example**
-require_once **DIR** . '/../vendor/autoload.php';
-use Nichin79\Curl\Curl;
+Contains two classes:
+-Curl
+-BasicCurl
 
-$payload = [
+BasicCurl extends Curl and will automatically use the curlopt's ssl_verifypeer and returntransfer. In addition it will automatically execute the curl
+
+`use Nichin79\Curl\BasicCurl;`
+OR
+`use Nichin79\Curl\Curl;`
+
+```
+$data = [
+'url' => 'https://reqbin.com/echo',
+// Method will automatically be set to GET if not specified
 'method' => 'GET',
-'url' => 'https://www.google.com',
-'headers' => ["Content-Type: application/json"],
-'user' => 'test@test.com',
-'password' => '',
-'token' => '',
-'data' => '{"key":"value"}',
+'headers' => [],
+'options' => [
+'SSL_VERIFYPEER' => false
+]
 ];
 
-$curlResponse = Curl::exec($payload);
+$curl = new Curl($data);
+$curl->execute();
+
+echo json_encode($curl->getResponse(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+echo "\r\n";
+echo "http status code: " . $curl->getHttpCode();
+```

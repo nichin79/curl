@@ -3,58 +3,82 @@ namespace Nichin79\Curl;
 
 class Curl
 {
-  public static function exec(array $payload)
+  public $curl;
+  public $response;
+  public array $constants;
+
+  public function __construct(array $data = [])
   {
-    if (!isset($payload['url']) || empty($payload['url'])) {
-      throw new \Exception('Bad Requst - Missing URL');
-    }
-    if (!isset($payload['method']) || empty($payload['method'])) {
-      $payload['method'] = 'GET';
-    }
+    $this->constants = $this->getCurlConstants();
 
-    // Curl Init 
-    $ch = curl_init();
+    $this->curl = curl_init();
 
-    // Curl Options
-    curl_setopt($ch, CURLOPT_URL, htmlspecialchars($payload['url']));
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-    if (isset($payload['method'])) {
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $payload['method']);
+    if (isset($data['method']) || !empty($data['method'])) {
+      curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $data['method']);
     }
 
-    if (isset($payload['data'])) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $payload['data']);
+    if (isset($data['url']) && !empty($data['url'])) {
+      curl_setopt($this->curl, CURLOPT_URL, htmlspecialchars($data['url']));
     }
 
-    if (isset($payload['headers'])) {
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $payload['headers']);
+    if (isset($data['headers'])) {
+      curl_setopt($this->curl, CURLOPT_HTTPHEADER, $data['headers']);
     }
 
-    if (isset($payload['user'])) {
-      if (isset($payload['token'])) {
-        curl_setopt($ch, CURLOPT_USERPWD, $payload['user'] . '/token:' . $payload['token']);
-      } elseif (isset($payload['password'])) {
-        curl_setopt($ch, CURLOPT_USERPWD, $payload['user'] . ':' . $payload['password']);
+    if (isset($data['data'])) {
+      curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data['data']);
+    }
+
+    foreach ($data['options'] as $key => $value) {
+      curl_setopt($this->curl, $this->getCurlopt('curlopt_' . $key), $value);
+    }
+  }
+
+
+  private function getCurlConstants()
+  {
+    $constants = get_defined_constants(true);
+    return $constants['curl'];
+  }
+
+
+  private function getCurlOpt($option)
+  {
+    foreach ($this->constants as $key => $value) {
+      if (strtoupper($key) === strtoupper($option)) {
+        return $value;
       }
     }
+    throw new \Exception("CURLOPT: " . strtoupper($option) . " NOT FOUND");
+  }
 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    // Curl Execute
-    $server_output = curl_exec($ch);
+  public function exec()
+  {
+    $this->response = curl_exec($this->curl);
+    curl_close($this->curl);
+  }
 
-    if ($server_output == '') {
-      $server_output = '""';
+
+  public function getInfo()
+  {
+    return curl_getinfo($this->curl);
+  }
+
+
+  public function getHttpCode()
+  {
+    return curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
+  }
+
+
+  public function getResponse()
+  {
+    try {
+      $response = json_decode($this->response, $associative = true, $depth = 512, JSON_THROW_ON_ERROR);
+    } catch (\Exception $e) {
+      $response = $this->response;
     }
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $response = json_decode('{ "httpcode":' . $httpcode . ',"response":"" }');
-
-    if (!$response->response = json_decode($server_output)) {
-      $response->response = $server_output;
-    }
-
-    curl_close($ch);
     return $response;
   }
 }
