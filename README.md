@@ -19,7 +19,7 @@ OR
 
 Setting the params/options for curl can be done in two ways:
 
-# Option 1
+### Option 1
 
 ```
 $data = [
@@ -32,7 +32,7 @@ $data = [
 ];
 ```
 
-# Option 2
+### Option 2
 
 ```
 $data = [
@@ -41,7 +41,7 @@ $data = [
 ];
 ```
 
-# Usage
+### Usage
 
 ```
 $curl = new Curl($data);
