@@ -15,6 +15,6 @@ $data = [
 
 $curl = new BasicCurl($data);
 
-echo json_encode($curl->getResponse(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+echo json_encode($curl->response(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 echo "\r\n";
 echo "http status code: " . $curl->httpcode();
