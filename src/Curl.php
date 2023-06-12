@@ -111,10 +111,18 @@ class Curl
       if ($pretty_print === 1) {
         $this->response = json_encode(json_decode($this->response, $associative = true, $depth = 512, JSON_THROW_ON_ERROR), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       }
-      echo $this->response;
     } catch (\Exception $e) {
-      echo $this->response;
+      $this->response = "Error when converting to Json: $e";
     }
+
+    echo $this->response;
+    return $this->response;
+  }
+
+  public function jsonFile($file, $pretty_print = 1)
+  {
+    $this->jsonPrint($pretty_print);
+    file_put_contents($file, $this->response);
     return $this->response;
   }
 }
