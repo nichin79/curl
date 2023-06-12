@@ -100,4 +100,20 @@ class Curl
     }
     return $response;
   }
+
+  public function jsonPrint($pretty_print = 0)
+  {
+    try {
+      if ($pretty_print === 0) {
+        $response = json_encode(json_decode($this->response, $associative = true, $depth = 512, JSON_THROW_ON_ERROR), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+      }
+
+      if ($pretty_print === 1) {
+        $response = json_encode(json_decode($this->response, $associative = true, $depth = 512, JSON_THROW_ON_ERROR), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+      }
+      echo $response;
+    } catch (\Exception $e) {
+      echo $this->response;
+    }
+  }
 }
